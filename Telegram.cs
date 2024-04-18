@@ -26,6 +26,10 @@ namespace FlexPortManagerPoC
         public string ResponseData { get; set; } = string.Empty;
 
         public State Status = State.None;
-    
+        public void Release()
+        {
+            this.Status = State.Done;
+        }
+
     }
 }

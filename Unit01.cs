@@ -24,7 +24,7 @@ namespace FlexPortManagerPoC
             // do work
             Debug($"Telegram {telegram.ResponseData}");
 
-            telegram.Status = State.Done;
+            telegram.Release();
  
 
             return;

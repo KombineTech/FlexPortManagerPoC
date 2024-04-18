@@ -41,15 +41,12 @@ namespace FlexPortManagerPoC
                 {
                     if (_telegram.TimeoutTick > Environment.TickCount64)
                     {
-                        _telegram.Status = State.Timeout  ;
+                        _telegram.Status = State.Timeout;
                         Console.WriteLine($"Timeout");
                         return false;
-
                     }
                     return true;
                 }
-
-
                 return false;
             }
         }
