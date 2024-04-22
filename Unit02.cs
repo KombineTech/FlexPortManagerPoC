@@ -11,7 +11,22 @@ namespace FlexPortManagerPoC
     {
         protected override async Task MainLoop()
         {
-            Debug("Main");
+           
+            Debug($"Main");
+
+            var telegram = PortManager.Request("COM3", $"DATA{UnitId}", 10000, 2000, 1000, '\n');
+
+            do
+            {
+                await Task.Delay(10);
+                if (telegram.Status == State.Timeout) return;
+            } while (telegram.Status != State.Response);
+
+            // do work
+            Debug($"Telegram {telegram.ResponseData}");
+
+            telegram.Release();
+
             await Task.Delay(1666, cancel.Token);
         }
     }

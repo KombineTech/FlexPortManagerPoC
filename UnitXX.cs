@@ -37,7 +37,7 @@ namespace FlexPortManagerPoC
 
         async Task RunLoop(CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+        while (!token.IsCancellationRequested)
             {
                 await MainLoop();
             }

@@ -20,10 +20,12 @@ namespace FlexPortManagerPoC
     {
         public int Timeout { get; set; }
         public int Force { get; set; }
-        public long ExecuteTick { get; set; }  // Execute Time in Environment.TickCount64
-        public long TimeoutTick { get; set; }  // Timeout Time in Environment.TickCount64
+        public long ExecuteTick { get; set; } = long.MaxValue;  // Execute Time in Environment.TickCount64
+        public long TimeoutTick { get; set; } = long.MaxValue;
         public string RequestData { get; set; } = string.Empty;
         public string ResponseData { get; set; } = string.Empty;
+
+        public char StopChar { get; set; }
 
         public State Status = State.None;
         public void Release()
@@ -31,5 +33,13 @@ namespace FlexPortManagerPoC
             this.Status = State.Done;
         }
 
+        public long ForceTick
+        {
+            get
+            {
+                if (this.Force <= 0) return long.MaxValue; ;
+                return ExecuteTick - Force;
+            }
+        }
     }
 }
