@@ -14,7 +14,7 @@ namespace FlexPortManagerPoC
            
             Debug($"Main");
 
-            var telegram = PortManager.Request("COM3", $"DATA{UnitId}", 10000, 2000, 1000, '\n');
+            var telegram = PortManager.Request("COM3" , UnitId, $"DATA{UnitId}", 10000, 2000, 1000, '\0');
 
             do
             {

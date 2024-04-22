@@ -39,6 +39,7 @@ namespace FlexPortManagerPoC
         {
             while (!token.IsCancellationRequested)
             {
+
                 foreach (KeyValuePair<string, ConcurrentDictionary<string, Telegram>> kvp in _telegrams)
                 {
                     var portname = kvp.Key;
@@ -57,8 +58,8 @@ namespace FlexPortManagerPoC
                         }
 
                         var found = new Telegram();
-                        var wait =  false ;
-
+                        var waitingforforcedtelegram =  false ;
+                     
                         //find forced telegrams
                         foreach (var telegram in telegrams)
                         {
@@ -66,18 +67,18 @@ namespace FlexPortManagerPoC
                             if (telegram.Value.Force <= 0) continue;
                             if (telegram.Value.ForceTick > Environment.TickCount64) continue;
                             if (found.ForceTick < telegram.Value.ForceTick) continue;
-                            wait = true;
-                            Console.WriteLine($"force found in  {portname}");                         
+                            waitingforforcedtelegram = true;
+                            Console.WriteLine($"Forced telegram found in {portname} {found.Status}");                         
                             if (found.ExecuteTick < telegram.Value.ExecuteTick) continue;
                             found = telegram.Value;
-                            wait = false;
+                            waitingforforcedtelegram = false;
                         }
 
                         // if waiting for foced telegram
-                        if (wait) continue;
+                        if (waitingforforcedtelegram) continue;
 
                         // find smalles ExecuteTick greater oq eq  than Environment.TickCount64
-                        if (found.Status == State.None)
+                        if (found.Status == State.NotFound)
                         {
                             foreach (var telegram in telegrams)
                             {
@@ -89,20 +90,20 @@ namespace FlexPortManagerPoC
                         };
 
                         // if no telegram found 
-                        if (found.Status == State.None) continue;
+                        if (found.Status == State.NotFound) continue;
 
-                        Console.WriteLine($"Telegram found in  {portname} {found.Status}");
+                        Console.WriteLine($"Telegram found in {portname} {found.Status}");
 
                         Ports[portname].Write(found);
                     }
 
                 }
 
-                await Task.Delay(100, token);
+                await Task.Delay(10, token);
             }
         }
 
-        public Telegram Request(string portName, string data, int timeout, int delay, int force, char stopchar)
+        public Telegram Request(string portName, byte unitid, string data, int timeout, int delay, int force, char? stopChar)
         {
             var output = new Telegram
             {
@@ -111,7 +112,8 @@ namespace FlexPortManagerPoC
                 Timeout = timeout,
                 RequestData = data,
                 Status = State.Queue,
-                StopChar = stopchar,
+                UnitId = unitid,
+                StopChar = stopChar,
             };
 
             _telegrams.TryAdd(portName, []);

@@ -8,11 +8,15 @@ namespace FlexPortManagerPoC
 {
     internal class Unit01(Storage db, PortManager pm, byte unitId) : UnitXX(db, pm, unitId)
     {
+
+
+
+
         protected override async Task MainLoop()
         {
             Debug($"Main");
 
-            var telegram = PortManager.Request("COM3", $"DATA{UnitId}", 10000, 0, 0, '\n');
+            var telegram = PortManager.Request("COM3", UnitId, $"DATA{UnitId}", 10000, 0, 0, '\n');
 
             do
             {

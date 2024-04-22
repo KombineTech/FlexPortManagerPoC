@@ -8,7 +8,7 @@ namespace FlexPortManagerPoC
 {
     public enum State
     {
-        None,
+        NotFound,
         Queue,
         Requesting,
         Timeout,
@@ -25,9 +25,10 @@ namespace FlexPortManagerPoC
         public string RequestData { get; set; } = string.Empty;
         public string ResponseData { get; set; } = string.Empty;
 
-        public char StopChar { get; set; }
+        public char? StopChar { get; set; } = null;
+        public byte  UnitId { get; set; }  
 
-        public State Status = State.None;
+        public State Status = State.NotFound;
         public void Release()
         {
             this.Status = State.Done;
