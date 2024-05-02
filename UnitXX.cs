@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Flex;
 
 namespace FlexPortManagerPoC
 {
@@ -15,6 +11,11 @@ namespace FlexPortManagerPoC
 
         protected PortManager PortManager = pm;
         protected Storage Database = db;
+
+
+        public object UserInterface;
+        public object InstallerInteface;
+        public object StatesInteface;
 
         public void Start()
         {
@@ -37,7 +38,7 @@ namespace FlexPortManagerPoC
 
         async Task RunLoop(CancellationToken token)
         {
-        while (!token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
                 await MainLoop();
             }
@@ -54,4 +55,58 @@ namespace FlexPortManagerPoC
             Console.WriteLine($"{UnitId}\t{text}\t{typeof(Unit01).Name}\t{guid}");
         }
     }
+
+
+    internal class UserInterface()
+    {
+        public int UserId { get; set; }
+    }
+
+    internal class SettingsInterface()
+    {
+
+    }
+
+    internal class StatesInteface()
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public class StorageLinkAttribute : Attribute
+    {
+        public eSetting Setting { get; private set; }
+
+        public StorageLinkAttribute(eSetting setting)
+        {
+            Setting = setting;
+        }
+
+        public eState State { get; private set; }
+
+        public StorageLinkAttribute(eState state)
+        {
+            State = state;
+        }
+
+
+    }
+
+
+
+
+
+
 }

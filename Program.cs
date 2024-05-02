@@ -38,6 +38,32 @@
                         foreach (var unit in units) { unit.Stop(); }
                         break;
 
+                    case ConsoleKey.U:
+
+                        foreach (var unit in units)
+                        {
+                            if (unit.UserInterface is IUserPay) Console.WriteLine($" {nameof(unit)} Has IStart {unit.UnitId}");
+                            if (unit.UserInterface is IUserStop) Console.WriteLine($" {nameof(unit)} Has IStop {unit.UnitId}");
+                            if (unit.UserInterface is IUserDuration) Console.WriteLine($" {nameof(unit)} Has IDuration {unit.UnitId}");
+                        }
+                        break;
+
+
+                    case ConsoleKey.J:
+
+                        foreach (var unit in units)
+                        {
+
+                            Console.WriteLine($"{nameof(unit.UserInterface)}:{System.Text.Json.JsonSerializer.Serialize(unit.UserInterface)}");
+                            Console.WriteLine($"{nameof(unit.InstallerInteface)}:{System.Text.Json.JsonSerializer.Serialize(unit.InstallerInteface)}");
+                            Console.WriteLine($"{nameof(unit.StatesInteface)}:{System.Text.Json.JsonSerializer.Serialize(unit.StatesInteface)}");
+
+                        }
+                        break;
+
+
+
+
                     default:
                         break;
                 }
