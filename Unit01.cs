@@ -1,8 +1,10 @@
-﻿namespace FlexPortManagerPoC
+﻿using Kombine.Flex;
+
+namespace FlexPortManagerPoC
 {
     internal class Unit01 : UnitXX
     {
-        public Unit01(Storage db, PortManager pm, byte unitId) : base(db, pm, unitId)
+        public Unit01(FlexStorage db, PortManager pm, byte unitId) : base(db, pm, unitId)
         {
             this.UserInterface = new UserInterface01();
             this.InstallerInteface = new SettingsInterface01();

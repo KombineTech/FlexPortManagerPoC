@@ -1,10 +1,23 @@
-﻿namespace FlexPortManagerPoC
+﻿using Kombine.Flex;
+
+namespace FlexPortManagerPoC
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var db = new Storage();
+            Kombine.Logging.Singleton.SharedLogger.Logger = new Kombine.Logging.KombineLoggerWrapper();
+
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var db = new FlexStorage(eUserId.FlexController, path, eTenantId.JAR, "92 43 04 95 836", "51 46 58 53 446", [1, 2, 3]);
+
+
+            db.SetState(1, eState.Door, 1);
+
+
+            db.Restore();
+            _ = db.StartAsync();
+
             var portManager = new PortManager();
             var units = new List<UnitXX>();
 

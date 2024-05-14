@@ -1,8 +1,8 @@
-﻿using Flex;
+﻿using Kombine.Flex;
 
 namespace FlexPortManagerPoC
 {
-    internal class UnitXX(Storage db, PortManager pm, byte unitId)
+    internal class UnitXX(FlexStorage db, PortManager pm, byte unitId)
     {
         public byte UnitId { get; } = unitId;
         protected readonly Guid guid = System.Guid.NewGuid();
@@ -10,7 +10,7 @@ namespace FlexPortManagerPoC
         private Task? loopTask;
 
         protected PortManager PortManager = pm;
-        protected Storage Database = db;
+        protected FlexStorage Database = db;
 
 
         public object UserInterface;
