@@ -8,9 +8,12 @@ namespace FlexPortManagerPoC
         {
             Kombine.Logging.Singleton.SharedLogger.Logger = new Kombine.Logging.KombineLoggerWrapper();
 
+
+
+
             var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            FlexStorage db = new FlexStorage(eUserId.FlexController, path, eTenantId.JAR, "92 43 04 95 836", "51 46 58 53 446", [1, 2, 3]);
+            FlexStorage db = new FlexStorage(eUserId.FlexController, path, eTenantId.JAR, "92430495836 ", "85148999325", [1, 2, 3]);
             db.Restore();
             _ = db.StartAsync();
 
@@ -25,31 +28,28 @@ namespace FlexPortManagerPoC
             Console.WriteLine("START");
 
 
-            db.SetSetting(1, eSetting.UnitType2, eUnitType.WashAllianceLog_25);
-            db.SetSetting(2, eSetting.UnitType2, eUnitType.WashAllianceLog_25);
-            db.SetSetting(3, eSetting.UnitType2, eUnitType.WashAllianceLog_25);
+            foreach (var unitid in new List<byte> { 1, 2, 3 })
             {
-                db.SetSetting(1, eSetting.FlexCount, 3);
-                db.SetSetting(1, eSetting.FlexId1, 1);
-                db.SetSetting(1, eSetting.FlexId2, 2);
-                db.SetSetting(1, eSetting.FlexId3, 3);
+                db.SetSetting(unitid, eSetting.Booted, "Booted", true);
+                db.SetSetting(unitid, eSetting.UnitType2, eUnitType.WashAlliancePump_16);
+                db.SetSetting(unitid, eSetting.Name, $"Vaskemaskine {unitid}");
+
+                //    db.SetState(unitid, eState.Door, 1);
+
+                db.SetState(unitid, eState.Started, FlexStorage.MS2000 - (long)eTime.Minute * unitid * 2);
+                db.SetState(unitid, eState.Done, FlexStorage.MS2000 + (long)eTime.Minute * unitid * 2);
+
+
+                db.SetState(unitid, eState.OutOfOrder, eOutOfOrder.Enabled);
+                //   db.SetState(unitid, eState.StartedBy, 1234);
+                //   db.SetState(unitid, eState.BookedBy, 0);
+                //  db.SetState(unitid, eState.Closed, 1);
+                //   db.SetState(unitid, eState.Process, eProcess.Mainwash);
+                //    db.SetState(unitid, eState.MachinStatus, eMachinStatus.BusyWithWash);
             }
 
-            db.SetState(1, eState.Temperature, 2000);
-            db.SetState(1, eState.PrgTemperature, 2000);
-            db.SetState(1, eState.Level, 2000);
-            db.SetState(1, eState.PrgLevel, 2000);
-            db.SetState(1, eState.MachinStatus, 2000);
-            db.SetState(1, eState.LinenWeight, 2000);
-            db.SetState(1, eState.OutOfOrder, 2000);
-            db.SetState(1, eState.Prewash, 2000);
-            db.SetState(1, eState.PrgStep, 2000);
-            db.SetState(1, eState.Door, 2000);
-            db.SetState(1, eState.Done, 2000);
-            db.SetState(1, eState.StartedBy, 2000);
-            db.SetState(1, eState.StartedBy, 2000);
 
-            db.SetSetting(1, eSetting.Booted, "hjujklhkjhjk " + Environment.TickCount64);
+
 
             Console.WriteLine(db.TestLink());
 
