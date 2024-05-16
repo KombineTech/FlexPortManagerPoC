@@ -30,14 +30,17 @@ namespace FlexPortManagerPoC
 
             foreach (var unitid in new List<byte> { 1, 2, 3 })
             {
+
+
+
                 db.SetSetting(unitid, eSetting.Booted, "Booted", true);
                 db.SetSetting(unitid, eSetting.UnitType2, eUnitType.WashAlliancePump_16);
                 db.SetSetting(unitid, eSetting.Name, $"Vaskemaskine {unitid}");
 
                 //    db.SetState(unitid, eState.Door, 1);
 
-                db.SetState(unitid, eState.Started, FlexStorage.MS2000 - (long)eTime.Minute * unitid * 2);
-                db.SetState(unitid, eState.Done, FlexStorage.MS2000 + (long)eTime.Minute * unitid * 2);
+                db.SetState(unitid, eState.Started, db.MS2000 - (long)eTime.Minute * unitid * 2);
+                db.SetState(unitid, eState.Done, db.MS2000 + (long)eTime.Minute * unitid * 2);
 
 
                 db.SetState(unitid, eState.OutOfOrder, eOutOfOrder.Enabled);
@@ -46,6 +49,8 @@ namespace FlexPortManagerPoC
                 //  db.SetState(unitid, eState.Closed, 1);
                 //   db.SetState(unitid, eState.Process, eProcess.Mainwash);
                 //    db.SetState(unitid, eState.MachinStatus, eMachinStatus.BusyWithWash);
+
+                db.SetCycle(unitid, eCycle.Idle);
             }
 
 
